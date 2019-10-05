@@ -1,0 +1,82 @@
+body {
+    display: grid;
+    grid-template-areas: 
+            "header"
+            "content"
+            ;
+}
+.myheader {
+    grid-area: "header"
+}
+
+.myforms {
+    margin-top: 3.5rem;
+    grid-area: "content"
+}
+
+.buttons{
+    display: none;
+}
+
+.tab-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+
+/* ============ CONTENT FOR LARGE SCREEN SIZE */
+.content-tab{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-gap: 5rem;
+    align-items: stretch;
+}
+
+.menu1 {
+    display: block;
+}
+.menu2 {
+    display: block;
+}
+/* =========== THE END OF LARGE SCREEN SIZE */
+
+
+    /* ============== MEDIA QUERIES */
+@media(max-width: 767px){
+.buttons{
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1fr;
+    /* align-items: center; */
+    grid-gap: 5px;
+    
+} 
+
+#signinbutton{
+    grid-column: 1/7;
+    border-radius: 0;
+} 
+
+#registerbutton {
+    grid-column: 7/13;
+    border-radius: 0;
+}
+
+.content-tab {
+    display: block;
+}
+.menu1{
+    grid-area: "register";
+    display: hidden;
+}
+
+.menu2 {
+    display: 'block'
+}
+}
