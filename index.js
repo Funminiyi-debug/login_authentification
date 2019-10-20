@@ -8,8 +8,13 @@ const session = require('express-session');
 const flash = require('connect-flash')
 const passport = require('passport')
 const path = require('path')
+
+require('dotenv').config()
+
+
+
 //my database link
-const DATABASEURL = 'mongodb+srv://Fuminiyianwo:Funminiyi123%3F@cluster0-p0mwx.mongodb.net/test?retryWrites=true&w=majority'
+const DATABASEURL = process.env.DATABASEURL
 
 // use the passport config 
 require('./config/passport')(passport)
