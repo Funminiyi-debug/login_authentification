@@ -1,29 +1,25 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const User = require('./models/UserModel');
+// const User = require('./models/UserModel');
 const expressLayouts = require('express-ejs-layouts');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const flash = require('connect-flash')
 const passport = require('passport')
 const path = require('path')
+const dotenv = require('dotenv')
 
-require('dotenv').config()
+dotenv.config({ path: './config/config.env' })
 
-
-
-//my database link
-const DATABASEURL = process.env.DATABASEURL
 
 // use the passport config 
-require('./config/passport')(passport)
 
 
 // call expressLayouts and use it to render the ejs 
 app.use(expressLayouts)
 app.set('view engine', 'ejs');
-
+app.set('views', path.join(__dirname, 'views'))
 // setup express to serve static files 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,13 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 
 // connect mongoose 
-mongoose.connect(DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => {
-    console.log(`database has been connected`)
-}).catch(err => console.log(err))
 
 
-
+const port = process.env.PORT || 4000
 // to include body parser
 app.use(express.urlencoded( { extended: true }));
 
@@ -47,10 +39,17 @@ app.use(express.urlencoded( { extended: true }));
 
 // configure session middleware 
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-  }))
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+}))
+
+require('./config/passport')(passport)
+
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {
+    console.log(`THE DATABASE HAS BEEN CONNECTED`)
+}).catch(err => console.log(err))
 
   // add the passport middleware 
   app.use(passport.initialize());
@@ -82,5 +81,5 @@ app.get('/map', (req, res) => {
 app.use('/users', require('./routes/register-route'))
 
 
-app.listen(2000, console.log('Server working on port ', 2000));
+app.listen(port, console.log('Server working on port %s', port));
 

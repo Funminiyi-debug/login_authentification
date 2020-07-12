@@ -6,7 +6,11 @@ const User = require('../models/UserModel');
 module.exports = (passport) => {
     
     passport.use(
-        new LocalStrategy( { usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
+        new LocalStrategy( { 
+            usernameField: 'email', 
+            passwordField: 'password' }, 
+            
+            (email, password, done) => {
             // using callback instead of promise 
             User.findOne({ email: email }, (err, user) => {
             
